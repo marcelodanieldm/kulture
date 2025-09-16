@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Espacio Cultural</title>
+<head>
+    <title>Home Espacio Cultural</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&family=Manrope:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', Arial, sans-serif; background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%); }
+        h1, h2, h3, .card-title { font-family: 'Montserrat', Arial, sans-serif; }
+        .card-title { font-size: 1.22em; color: #3b82f6; font-family: 'Manrope', 'Montserrat', Arial, sans-serif; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; letter-spacing: 0.5px; }
+        .card { background: #fff; border-radius: 18px; box-shadow: 0 4px 24px rgba(44,62,80,0.10); padding: 32px 38px; margin-bottom: 32px; transition: box-shadow 0.2s; }
+        .card:hover { box-shadow: 0 8px 32px rgba(44,62,80,0.16); }
+        .card-content { font-size: 1.12em; color: #222; font-family: 'Roboto', Arial, sans-serif; line-height: 1.7; }
+        .icon { display: inline-flex; align-items: center; justify-content: center; background: #e0e7ff; border-radius: 50%; padding: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); }
+        .card-link { color: #6366f1; text-decoration: underline; font-weight: 500; }
+        .section-title { font-size: 1.28em; color: #6366f1; font-family: 'Manrope', 'Montserrat', Arial, sans-serif; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+        .list { list-style: none; padding: 0; margin: 0; }
+        .list-item { background: #f3f4f6; border-radius: 12px; padding: 16px 22px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.07); font-size: 1.08em; }
+        .label { font-weight: 600; color: #222; font-family: 'Manrope', Arial, sans-serif; }
+        .indicator { font-size: 1.12em; font-weight: 600; }
+        .indicator-full { color: #ef4444; font-weight: bold; }
+        .indicator-available { color: #22c55e; font-weight: bold; }
+        .btn { background: linear-gradient(90deg,#6366f1 0%,#818cf8 100%); color: #fff; border: none; border-radius: 10px; padding: 12px 28px; font-weight: 600; font-family: 'Manrope', Arial, sans-serif; cursor: pointer; font-size: 1.08em; transition: background 0.2s, box-shadow 0.2s; box-shadow: 0 2px 8px rgba(44,62,80,0.08); }
+        .btn:hover { background: linear-gradient(90deg,#818cf8 0%,#6366f1 100%); box-shadow: 0 4px 16px rgba(44,62,80,0.13); }
+        table { border-radius: 12px; overflow: hidden; }
+        th, td { font-family: 'Roboto', Arial, sans-serif; }
+        th { background: #e0e7ff; color: #6366f1; font-weight: 700; }
+        tr { transition: background 0.15s; }
+        tr:hover { background: #f3f4f6; }
+    </style>
+</head>
+        <div style="display:flex;justify-content:center;align-items:center;gap:18px;">
+            <svg width="48" height="48" fill="#fff" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M2 8l8-6 8 6"/></svg>
+            <div>
+                <div style="font-size:2em;font-family:'Montserrat',Arial,sans-serif;font-weight:bold;">{{ space.user.username }}</div>
+                <div style="font-size:1.08em;font-family:'Roboto',Arial,sans-serif;color:#e0e7ff;">Categoría: {{ space.user.get_user_type_display }}</div>
+            </div>
+        </div>
+        <div style="font-size:1.15em;font-family:'Roboto',Arial,sans-serif;margin-top:8px;">¡Bienvenido/a, {{ space.user.username }}!</div>
+        <nav style="margin-top:18px;display:flex;justify-content:center;gap:32px;">
+            <a href="/logout/" style="color:#fff;text-decoration:none;font-size:1.08em;display:flex;align-items:center;gap:8px;font-weight:500;">
+                <svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3z"/><path d="M20 19V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v2h2V5h10v14H8v-2H6v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2z"/></svg> Logout
+            </a>
+            <a href="/editar_perfil/" style="color:#fff;text-decoration:none;font-size:1.08em;display:flex;align-items:center;gap:8px;font-weight:500;">
+                <svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg> Editar perfil
+            </a>
+            <a href="/ayuda/" style="color:#fff;text-decoration:none;font-size:1.08em;display:flex;align-items:center;gap:8px;font-weight:500;">
+                <svg width="22" height="22" fill="#fff" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm1.07-7.75c-.9.92-1.07 1.24-1.07 2.25h-2v-.5c0-1.1.45-1.99 1.36-2.91.93-.93 1.64-1.54 1.64-2.59 0-1.3-1.05-2.25-2.5-2.25s-2.5.95-2.5 2.25H7c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.45-.77 2.34-1.93 3.25z"/></svg> Ayuda
+            </a>
+        </nav>
+    </header>
+    <section style="max-width:900px;margin:0 auto 32px auto;">
+        <div class="card">
+            <div class="card-title"><span class="icon"><svg width="24" height="24" fill="#6366f1" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zm14.71-9.04c.39-.39.39-1.02 0-1.41l-2.54-2.54a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span> Balance</div>
+            <form method="get" style="margin-bottom:18px;display:flex;align-items:center;gap:12px;">
+                <label for="fecha_evento" style="font-weight:500;color:#2d2e32;">Filtrar por fecha:</label>
+                <input type="date" name="fecha_evento" id="fecha_evento" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                <button type="submit" class="btn">Filtrar</button>
+            </form>
+            <table style="width:100%;border-collapse:collapse;">
+                <thead>
+                    <tr style="background:#f3f4f6;">
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Evento</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Fecha</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Vendidos</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Ganancia neta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for evento in eventos %}
+                    <tr style="border-bottom:1px solid #e5e7eb;">
+                        <td style="padding:8px 6px;">{{ evento.nombre }}</td>
+                        <td style="padding:8px 6px;">{{ evento.fecha|date:'d/m/Y H:i' }}</td>
+                        <td style="padding:8px 6px;">{{ evento.lugares_vendidos }}</td>
+                        <td style="padding:8px 6px;">${{ evento.ganancia_neta }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4" style="padding:12px;color:#888;text-align:center;">No hay eventos registrados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- ...resto de las secciones... -->
+    <section style="max-width:900px;margin:38px auto 0 auto;">
+        <div class="card">
+            <div class="card-title"><span class="icon"><svg width="24" height="24" fill="#6366f1" viewBox="0 0 24 24"><path d="M4 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4zm0 4h10v2H4z"/></svg></span> Balance económico</div>
+            <table style="width:100%;border-collapse:collapse;">
+                <thead>
+                    <tr style="background:#f3f4f6;">
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Mes</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Entradas vendidas</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Asistentes</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Lugares libres</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Gastos</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Ganancia neta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mes in balance_mensual %}
+                    <tr style="border-bottom:1px solid #e5e7eb;">
+                        <td style="padding:8px 6px;">{{ mes.nombre }}</td>
+                        <td style="padding:8px 6px;">{{ mes.entradas_vendidas }}</td>
+                        <td style="padding:8px 6px;">{{ mes.asistentes }}</td>
+                        <td style="padding:8px 6px;">{{ mes.lugares_libres }}</td>
+                        <td style="padding:8px 6px;">${{ mes.gastos }}</td>
+                        <td style="padding:8px 6px;">${{ mes.ganancia_neta }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6" style="padding:12px;color:#888;text-align:center;">No hay datos de balance económico.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div style="margin-top:18px;text-align:right;">
+                <form method="post" action="{% url 'exportar_balance_pdf' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Exportar balance en PDF</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section style="max-width:900px;margin:38px auto 0 auto;">
+        <div class="card">
+            <div class="card-title"><span class="icon"><svg width="24" height="24" fill="#6366f1" viewBox="0 0 24 24"><path d="M12 2v20"/><rect x="4" y="8" width="16" height="8" rx="2"/></svg></span> Eventos por venir</div>
+            <table style="width:100%;border-collapse:collapse;">
+                <thead>
+                    <tr style="background:#f3f4f6;">
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Evento</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Fecha</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Vendidos</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Libres</th>
+                        <th style="padding:10px 6px;text-align:left;font-weight:600;color:#6366f1;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for evento in eventos_por_venir %}
+                    <tr style="border-bottom:1px solid #e5e7eb;">
+                        <td style="padding:8px 6px;">{{ evento.name }}</td>
+                        <td style="padding:8px 6px;">{{ evento.date|date:'d/m/Y H:i' }}</td>
+                        <td style="padding:8px 6px;">{{ evento.total_seats|floatformat:0|add:evento.available_seats|floatformat:0 }}</td>
+                        <td style="padding:8px 6px;">{{ evento.available_seats }}</td>
+                        <td style="padding:8px 6px;">
+                            <a href="{% url 'evento_edit' evento.id %}" class="btn" style="padding:6px 14px;font-size:0.95em;">Editar</a>
+                            <a href="{% url 'evento_delete' evento.id %}" class="btn" style="padding:6px 14px;font-size:0.95em;background:#ef4444;">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" style="padding:12px;color:#888;text-align:center;">No hay eventos por venir.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div style="margin-top:18px;display:flex;justify-content:center;gap:8px;">
+                {% if eventos_por_venir.has_previous %}
+                    <a href="?page={{ eventos_por_venir.previous_page_number }}" class="btn">Anterior</a>
+                {% endif %}
+                <span style="font-size:1.08em;font-weight:500;">Página {{ eventos_por_venir.number }} de {{ eventos_por_venir.paginator.num_pages }}</span>
+                {% if eventos_por_venir.has_next %}
+                    <a href="?page={{ eventos_por_venir.next_page_number }}" class="btn">Siguiente</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <section style="max-width:900px;margin:38px auto 0 auto;">
+        <div class="card">
+            <div class="card-title"><span class="icon"><svg width="24" height="24" fill="#6366f1" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="2"/></svg></span> Crear evento</div>
+            <form method="post" enctype="multipart/form-data" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+                {% csrf_token %}
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <label>Nombre del evento</label>
+                    <input type="text" name="nombre" required style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <label>Descripción</label>
+                    <textarea name="descripcion" rows="3" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;"></textarea>
+                    <label>Fotos</label>
+                    <input type="file" name="fotos" multiple accept="image/*">
+                    <label>Tags</label>
+                    <input type="text" name="tags" placeholder="Separados por coma" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <label>Categoría de arte</label>
+                    <input type="text" name="categoria_arte" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <label>Ciudad</label>
+                    <input type="text" name="ciudad" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <label>País</label>
+                    <input type="text" name="pais" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <label>Horario (con timezone)</label>
+                    <input type="datetime-local" name="horario" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <label>Fecha y hora</label>
+                    <input type="datetime-local" name="fecha_hora" required style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <label>Duración (horas)</label>
+                    <input type="number" name="duracion" min="0" step="0.1" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <label>Precio</label>
+                    <input type="number" name="precio" min="0" step="0.01" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <label>Moneda</label>
+                    <select name="moneda" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                        <option value="ARS">ARS</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                    <label>Código de promoción</label>
+                    <input type="text" name="codigo_promocion" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <label>% Descuento</label>
+                    <input type="number" name="porcentaje_descuento" min="0" max="100" step="1" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <label>Comentario de novedades</label>
+                    <textarea name="comentario_novedades" rows="2" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;"></textarea>
+                    <label>Cantidad de entradas</label>
+                    <input type="number" name="cantidad_entradas" min="1" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;">
+                    <button type="submit" class="btn" style="margin-top:12px;">Crear evento</button>
+                </div>
+    <!-- Sección para mostrar el enlace a la página del evento y QR generado -->
+    {% if evento_creado %}
+    <section style="max-width:900px;margin:38px auto 0 auto;">
+        <div class="card">
+            <div class="card-title"><span class="icon"><svg width="24" height="24" fill="#6366f1" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="2"/></svg></span> Evento creado</div>
+            <div class="card-content">
+                <p>El evento <b>{{ evento_creado.name }}</b> ha sido creado correctamente.</p>
+                <a href="{% url 'evento_detail' evento_creado.id %}" class="btn" target="_blank">Ir a la página del evento</a>
+                <div style="margin-top:18px;">
+                    <img src="{{ evento_creado.qr_url }}" alt="QR Entrada" style="max-width:180px;">
+                    <div style="margin-top:8px;">
+                        <a href="{{ evento_creado.qr_url_png }}" class="btn" download>Descargar QR PNG</a>
+                        <a href="{{ evento_creado.qr_url_pdf }}" class="btn" download>Descargar QR PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+            </form>
+        </div>
+    </section>
+    <section style="max-width:900px;margin:38px auto 0 auto;">
+        <div style="background:#f8fafc;border-radius:16px;box-shadow:0 2px 12px rgba(44,62,80,0.08);padding:28px 32px;margin-bottom:24px;">
+            <div style="font-size:1.25em;color:#6366f1;font-family:'Montserrat',Arial,sans-serif;font-weight:bold;display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                <svg width="24" height="24" fill="#6366f1" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="2"/></svg> Configuración de Asientos
+            </div>
+            <form method="post" style="margin-bottom:12px;">
+                {% csrf_token %}
+                <label for="total_seats" style="font-weight:500;color:#2d2e32;">Cantidad total de asientos:</label>
+                <input type="number" name="total_seats" value="{{ space.total_seats }}" min="0" style="width:120px;padding:8px;border-radius:8px;border:1px solid #e5e7eb;margin:0 12px 0 0;">
+                <label for="available_seats" style="font-weight:500;color:#2d2e32;">Asientos disponibles:</label>
+                <input type="number" name="available_seats" value="{{ space.available_seats }}" min="0" style="width:120px;padding:8px;border-radius:8px;border:1px solid #e5e7eb;margin:0 12px 0 0;">
+                <button type="submit" style="background:linear-gradient(90deg,#6366f1 0%,#818cf8 100%);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-weight:500;cursor:pointer;">Guardar</button>
+            </form>
+            <div style="font-size:1.08em;font-weight:500;">Indicador de sala llena: {% if sala_llena %}<span style="color:#ef4444;font-weight:bold;">Sala llena</span>{% else %}<span style="color:#22c55e;font-weight:bold;">Hay asientos disponibles</span>{% endif %}</div>
+        </div>
+    <body>
+        <header style="background:linear-gradient(90deg,#6366f1 0%,#818cf8 100%);color:#fff;padding:38px 0 28px 0;margin-bottom:38px;border-radius:0 0 24px 24px;box-shadow:0 6px 24px rgba(44,62,80,0.13);position:sticky;top:0;z-index:10;">
+            <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:18px;">
+                    <span style="display:inline-flex;align-items:center;justify-content:center;background:#fff;border-radius:50%;padding:12px;box-shadow:0 2px 8px rgba(44,62,80,0.10);">
+                        <svg width="44" height="44" fill="#6366f1" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M2 8l8-6 8 6"/></svg>
+                    </span>
+                    <div>
+                        <div style="font-size:2.1em;font-family:'Montserrat',Arial,sans-serif;font-weight:700;color:#fff;letter-spacing:0.5px;">{{ space.user.first_name }} {{ space.user.last_name }}</div>
+                        <div style="font-size:1.08em;font-family:'Manrope',Arial,sans-serif;color:#e0e7ff;margin-top:2px;">Espacio Cultural</div>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:24px;">
+                    <a href="/espacios/" title="Lista de espacios" style="color:#fff;">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;background:#818cf8;border-radius:50%;padding:10px;box-shadow:0 2px 8px rgba(44,62,80,0.10);">
+                            <svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M2 8l8-6 8 6"/></svg>
+                        </span>
+                    </a>
+                    <a href="/logout/" title="Cerrar sesión" style="color:#fff;">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;background:#f87171;border-radius:50%;padding:10px;box-shadow:0 2px 8px rgba(44,62,80,0.10);">
+                            <svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3z"/><rect x="16" y="3" width="6" height="18" rx="2"/></svg>
+                        </span>
+                    </a>
+                    <a href="/editar-perfil/" title="Editar perfil" style="color:#fff;">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;background:#34d399;border-radius:50%;padding:10px;box-shadow:0 2px 8px rgba(44,62,80,0.10);">
+                            <svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zm14.71-9.04c.39-.39.39-1.02 0-1.41l-2.54-2.54a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                        </span>
+                    </a>
+                    <a href="/ayuda/" title="Ayuda" style="color:#fff;">
+                        <span style="display:inline-flex;align-items:center;justify-content:center;background:#6366f1;border-radius:50%;padding:10px;box-shadow:0 2px 8px rgba(44,62,80,0.10);">
+                            <svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 17h0v-2h0v2zm1.07-7.75c-.9.92-1.07 1.24-1.07 2.25h-2v-.5c0-1.1.45-1.99 1.36-2.91.93-.93 1.64-1.54 1.64-2.59 0-1.3-1.05-2.25-2.5-2.25s-2.5.95-2.5 2.25H7c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.45-.77 2.34-1.93 3.25z"/></svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div style="font-size:1.18em;font-family:'Manrope',Arial,sans-serif;margin-top:18px;color:#e0e7ff;text-align:left;max-width:1100px;margin:0 auto;">¡Bienvenido/a a tu espacio cultural!</div>
+        </header>
+                <label for="concept" style="font-weight:500;color:#2d2e32;">Nuevo gasto:</label>
+                <input type="text" name="concept" placeholder="Concepto" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;margin:0 12px 0 0;">
+                <input type="number" name="amount" step="0.01" placeholder="Monto" style="padding:8px;border-radius:8px;border:1px solid #e5e7eb;margin:0 12px 0 0;">
+                <button type="submit" name="add_expense" style="background:linear-gradient(90deg,#6366f1 0%,#818cf8 100%);color:#fff;border:none;border-radius:8px;padding:10px 24px;font-weight:500;cursor:pointer;">Agregar gasto</button>
+            </form>
+            <div style="font-size:1.08em;color:#2d2e32;margin-bottom:8px;"><strong>Ganancia total:</strong> ${{ total_ganancia }}</div>
+            <div style="font-size:1.08em;color:#6366f1;font-weight:500;margin-bottom:8px;">Gastos</div>
+            <ul style="list-style:none;padding:0;margin:0;">
+                {% for expense in expenses %}
+                    <li style="background:#fff;border-radius:10px;padding:10px 16px;margin-bottom:8px;box-shadow:0 1px 4px rgba(44,62,80,0.06);color:#2d2e32;">{{ expense.concept }} - ${{ expense.amount }} - {{ expense.date }}</li>
+                {% empty %}
+                    <li style="color:#6366f1;font-weight:500;">No hay gastos registrados.</li>
+                {% endfor %}
+            </ul>
+            <div style="font-size:1.08em;color:#6366f1;font-weight:500;margin-top:18px;margin-bottom:8px;">Tickets vendidos</div>
+            <ul style="list-style:none;padding:0;margin:0;">
+                {% for ticket in tickets %}
+                    <li style="background:#fff;border-radius:10px;padding:10px 16px;margin-bottom:8px;box-shadow:0 1px 4px rgba(44,62,80,0.06);color:#2d2e32;">{{ ticket.buyer_name }} - {{ ticket.seats_reserved }} asiento(s) - ${{ ticket.amount_paid }} - {{ ticket.purchase_date }}</li>
+                {% empty %}
+                    <li style="color:#6366f1;font-weight:500;">No hay tickets vendidos.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    <p><a href="/logout/" style="color:#6366f1;font-weight:bold;">Cerrar sesión</a></p>
+</body>
+</html>

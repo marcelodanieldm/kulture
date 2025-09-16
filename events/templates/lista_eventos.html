@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eventos | Kulture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', Arial, sans-serif; background: #f8fafc; margin: 0; }
+        .container { max-width: 700px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(44,62,80,0.10); padding: 32px; }
+        h1 { font-family: 'Montserrat', Arial, sans-serif; color: #6366f1; font-size: 2em; margin-bottom: 24px; }
+        .evento { border-bottom: 1px solid #e5e7eb; padding: 18px 0; }
+        .evento:last-child { border-bottom: none; }
+        .evento-nombre { font-size: 1.2em; font-weight: bold; color: #2d2e32; }
+        .evento-fecha { color: #6366f1; font-size: 1em; margin-bottom: 6px; }
+        .evento-desc { color: #374151; margin-bottom: 8px; }
+        .evento-precio { color: #10b981; font-weight: bold; }
+        .btn-ticket { background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%); color: #fff; border: none; border-radius: 8px; padding: 8px 18px; font-size: 1em; font-family: 'Montserrat', Arial, sans-serif; font-weight: bold; cursor: pointer; margin-top: 8px; text-decoration: none; display: inline-block; }
+        .btn-ticket:hover { background: linear-gradient(90deg, #818cf8 0%, #6366f1 100%); }
+        @media (max-width: 600px) { .container { padding: 12px; } h1 { font-size: 1.2em; } }
+    </style>
+</head>
+<body>
+    <nav class="menu" style="background: #2d2e32; color: #fff; padding: 0; margin-bottom: 40px; box-shadow: 0 2px 8px rgba(44,62,80,0.08);">
+        <ul class="menu-list" style="display: flex; justify-content: center; align-items: center; list-style: none; margin: 0; padding: 0;">
+            <li style="margin: 0 25px;"><a href="/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><path d="M10 2L2 8h2v8h4v-5h4v5h4V8h2L10 2z"/></svg>Inicio</a></li>
+            <li style="margin: 0 25px;"><a href="/artista/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="7" r="4"/><path d="M2 18c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/></svg>Artistas</a></li>
+            <li style="margin: 0 25px;"><a href="/eventos/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><rect x="3" y="6" width="14" height="11" rx="2"/><path d="M7 2v4M13 2v4" stroke="#fff" stroke-width="2"/></svg>Eventos</a></li>
+            <li style="margin: 0 25px;"><a href="/espacio/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><rect x="4" y="8" width="12" height="8" rx="2"/><path d="M2 8l8-6 8 6"/></svg>Espacios</a></li>
+                <li style="margin: 0 25px;"><a href="/espacios/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><rect x="4" y="8" width="12" height="8" rx="2"/><path d="M2 8l8-6 8 6"/></svg>Espacios</a></li>
+            <li style="margin: 0 25px;"><a href="/login/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/><path d="M10 14v-4M10 10V6" stroke="#fff" stroke-width="2"/></svg>Login</a></li>
+            <li style="margin: 0 25px;"><a href="/signup/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="7" r="4"/><path d="M2 18c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/><path d="M16 6v2M16 8h2"/></svg>Sign Up</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Eventos</h1>
+        <form method="get" style="margin-bottom:24px;text-align:left;display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+            <input type="text" name="q" value="{{ q }}" placeholder="Buscar por nombre" style="padding:8px;width:180px;">
+            <input type="date" name="fecha" value="{{ fecha }}" style="padding:8px;">
+            <input type="number" name="precio_min" value="{{ precio_min }}" placeholder="Precio mínimo" style="padding:8px;width:120px;">
+            <input type="number" name="precio_max" value="{{ precio_max }}" placeholder="Precio máximo" style="padding:8px;width:120px;">
+            <input type="text" name="artista" value="{{ artista }}" placeholder="Artista" style="padding:8px;width:120px;">
+            <input type="text" name="espacio" value="{{ espacio }}" placeholder="Espacio" style="padding:8px;width:120px;">
+            <select name="ordenar" style="padding:8px;">
+                <option value="fecha" {% if ordenar == 'fecha' %}selected{% endif %}>Ordenar por fecha</option>
+                <option value="precio" {% if ordenar == 'precio' %}selected{% endif %}>Ordenar por precio</option>
+            </select>
+            <button type="submit" style="background:#6366f1;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:bold;">Filtrar</button>
+            <button type="submit" name="exportar" value="csv" style="background:#10b981;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:bold;">Exportar CSV</button>
+        </form>
+    {% for evento in eventos %}
+            <div class="evento">
+                <div class="evento-nombre">{{ evento.name }}</div>
+                <div class="evento-fecha">{{ evento.date }}</div>
+                <div class="evento-desc">{{ evento.description }}</div>
+                <div class="evento-precio">Precio: ${{ evento.price }}</div>
+                <div style="color:#64748b;font-size:0.95em;">Artista: {% if evento.artist %}{{ evento.artist.user.username }}{% else %}-{% endif %} | Espacio: {% if evento.space %}{{ evento.space.user.username }}{% else %}-{% endif %}</div>
+                <div style="color:#64748b;font-size:0.95em;">Asientos disponibles: {{ evento.available_seats }}</div>
+                <a href="/comprar-ticket/{{ evento.id }}/" class="btn-ticket">Comprar Ticket</a>
+            </div>
+        {% empty %}
+            <p>No hay eventos disponibles.</p>
+        {% endfor %}
+        <div style="margin-top:32px;text-align:center;">
+            {% if page_obj.has_previous %}
+                <a href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}" style="margin-right:10px;">&laquo; Anterior</a>
+            {% endif %}
+            <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}" style="margin-left:10px;">Siguiente &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

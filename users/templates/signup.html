@@ -4,18 +4,46 @@
     <title>Registro</title>
 </head>
 <body>
-    <h2>Crear cuenta</h2>
-    {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
-    <form method="post">
-        {% csrf_token %}
-        <label for="username">Usuario:</label>
-        <input type="text" name="username" id="username" required><br>
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" required><br>
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="password" required><br>
-        <button type="submit">Registrarse</button>
-    </form>
-    <p>¿Ya tienes cuenta? <a href="/login/">Inicia sesión</a></p>
+    <nav class="menu" style="background: #2d2e32; color: #fff; padding: 0; margin-bottom: 40px; box-shadow: 0 2px 8px rgba(44,62,80,0.08);">
+        <ul class="menu-list" style="display: flex; justify-content: center; align-items: center; list-style: none; margin: 0; padding: 0;">
+            <li style="margin: 0 25px;"><a href="/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><path d="M10 2L2 8h2v8h4v-5h4v5h4V8h2L10 2z"/></svg>Inicio</a></li>
+            <li style="margin: 0 25px;"><a href="/artista/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="7" r="4"/><path d="M2 18c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/></svg>Artistas</a></li>
+            <li style="margin: 0 25px;"><a href="/eventos/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><rect x="3" y="6" width="14" height="11" rx="2"/><path d="M7 2v4M13 2v4" stroke="#fff" stroke-width="2"/></svg>Eventos</a></li>
+            <li style="margin: 0 25px;"><a href="/espacios/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><rect x="4" y="8" width="12" height="8" rx="2"/><path d="M2 8l8-6 8 6"/></svg>Espacios</a></li>
+            <li style="margin: 0 25px;"><a href="/login/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/><path d="M10 14v-4M10 10V6" stroke="#fff" stroke-width="2"/></svg>Login</a></li>
+            <li style="margin: 0 25px;"><a href="/signup/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="7" r="4"/><path d="M2 18c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/><path d="M16 6v2M16 8h2"/></svg>Sign Up</a></li>
+        </ul>
+    </nav>
+    <div class="container" style="max-width: 480px; margin: 60px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 24px rgba(44,62,80,0.10); padding: 40px 32px; text-align: center; animation: fadeIn 1s;">
+        <div style="margin-bottom:24px;">
+            <div style="width:100%;background:#e0e7ff;border-radius:8px;overflow:hidden;height:16px;">
+                <div style="width:50%;background:linear-gradient(90deg,#6366f1 0%,#818cf8 100%);height:16px;border-radius:8px;"></div>
+            </div>
+            <div style="font-size:0.98em;color:#6366f1;margin-top:6px;">Paso 1 de 2: Selección de tipo de usuario (50%)</div>
+        </div>
+        <svg width="48" height="48" fill="#6366f1" viewBox="0 0 24 24" style="margin-bottom: 8px;"><circle cx="12" cy="8" r="4"/><path d="M2 20c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/></svg>
+        <h2 style="font-family: 'Montserrat', Arial, sans-serif; font-size: 2em; color: #6366f1; margin-bottom: 18px;">Crear cuenta</h2>
+        {% if error %}<div style="color:#ef4444; margin-bottom:12px;">{{ error }}</div>{% endif %}
+        <form method="post" style="text-align:left;">
+            {% csrf_token %}
+            <label for="user_type" style="font-weight:bold; color:#2d2e32;">Selecciona el tipo de usuario:</label><br>
+            <div style="margin:18px 0 24px 0;">
+                <input type="radio" id="artist" name="user_type" value="artist" required>
+                <label for="artist" style="margin-right:12px;"><b>Artista/Grupo</b> <span style="color:#6366f1">- Crea y gestiona tu perfil artístico, muestra tus obras y participa en eventos.</span></label><br>
+                <input type="radio" id="evento" name="user_type" value="evento">
+                <label for="evento" style="margin-right:12px;"><b>Evento</b> <span style="color:#6366f1">- Organiza y promociona eventos culturales, gestiona entradas y participantes.</span></label><br>
+                <input type="radio" id="space" name="user_type" value="space">
+                <label for="space"><b>Espacio</b> <span style="color:#6366f1">- Da de alta tu espacio cultural, gestiona actividades y reservas.</span></label>
+            </div>
+            <button type="submit" style="background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%); color: #fff; border: none; border-radius: 8px; padding: 12px 32px; font-size: 1em; font-family: 'Montserrat', Arial, sans-serif; font-weight: bold; margin-top: 10px; cursor: pointer; box-shadow: 0 2px 8px rgba(44,62,80,0.08); transition: background 0.2s, transform 0.2s;">Continuar</button>
+        </form>
+        <p style="margin-top:24px;">¿Ya tienes cuenta? <a href="/login/" style="color:#6366f1;text-decoration:underline;">Inicia sesión</a></p>
+    </div>
+    <style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    </style>
 </body>
 </html>

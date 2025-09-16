@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .post-form-container {
+        max-width: 500px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(44,62,80,0.10);
+        padding: 38px 32px 28px 32px;
+        animation: fadeIn 0.8s;
+    }
+    .post-form-title {
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-size: 1.5em;
+        color: #6366f1;
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .post-form label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 16px 0 6px 0;
+        color: #2d2e32;
+        font-weight: bold;
+    }
+    .post-form input[type="text"],
+    .post-form textarea,
+    .post-form select,
+    .post-form input[type="datetime-local"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        font-size: 1em;
+        margin-bottom: 10px;
+        background: #f3f4f6;
+        transition: box-shadow 0.2s;
+    }
+    .post-form input:focus,
+    .post-form textarea:focus,
+    .post-form select:focus {
+        box-shadow: 0 0 0 2px #6366f1;
+        outline: none;
+    }
+    .post-form button[type="submit"] {
+        background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 32px;
+        font-size: 1em;
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-weight: bold;
+        margin-top: 10px;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+        transition: background 0.2s, transform 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .post-form button[type="submit"]:hover {
+        background: linear-gradient(90deg, #818cf8 0%, #6366f1 100%);
+        transform: scale(1.04);
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+<div class="post-form-container">
+    <div class="post-form-title">
+        <svg width="28" height="28" fill="#6366f1" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="4"/></svg>
+        {% if post %}Editar{% else %}Nuevo{% endif %} Post
+    </div>
+    <form class="post-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label><svg width="18" height="18" fill="#6366f1" viewBox="0 0 20 20"><rect x="2" y="4" width="16" height="12" rx="4"/></svg> Título</label>
+        <input type="text" name="title" value="{{ post.title|default:'' }}" required>
+        <label><svg width="18" height="18" fill="#6366f1" viewBox="0 0 20 20"><path d="M4 4h12v2H4z"/></svg> Contenido</label>
+        <textarea name="content" required>{{ post.content|default:'' }}</textarea>
+        <label><svg width="18" height="18" fill="#6366f1" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg> Categoría</label>
+        <select name="category">
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if post.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        <label><svg width="18" height="18" fill="#6366f1" viewBox="0 0 20 20"><rect x="2" y="4" width="16" height="12" rx="4"/></svg> Tags</label>
+        <select name="tags" multiple style="height: 80px;">
+            {% for tag in tags %}
+                {% if post and post.tags.all %}
+                    <option value="{{ tag.id }}" {% if tag in post.tags.all %}selected{% endif %}>{{ tag.name }}</option>
+                {% else %}
+                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <label><svg width="18" height="18" fill="#6366f1" viewBox="0 0 20 20"><path d="M6 2v2M14 2v2M3 6h14v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6z"/></svg> Fecha programada</label>
+        <input type="datetime-local" name="scheduled_for" value="{{ post.scheduled_for|date:'Y-m-d\TH:i' }}">
+        <label><svg width="18" height="18" fill="#6366f1" viewBox="0 0 20 20"><rect x="2" y="4" width="16" height="12" rx="4"/></svg> Miniatura</label>
+        <input type="file" name="thumbnail" accept="image/*">
+        {% if post and post.thumbnail %}
+            <div style="margin-bottom:10px;"><img src="{{ post.thumbnail.url }}" alt="Miniatura actual" style="max-width:120px;border-radius:8px;"></div>
+        {% endif %}
+        <button type="submit"><svg width="18" height="18" fill="#fff" viewBox="0 0 20 20"><path d="M10 4v12M4 10h12"/></svg> Guardar</button>
+    </form>
+</div>
+{% endblock %}

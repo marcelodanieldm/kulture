@@ -1,19 +1,145 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Login</title>
+    <title>Login | Kulture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 400px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(44,62,80,0.10);
+            padding: 40px 32px;
+            text-align: center;
+            animation: fadeIn 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 2em;
+            color: #6366f1;
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin: 16px 0 6px 0;
+            color: #2d2e32;
+            font-weight: bold;
+            text-align: left;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            font-size: 1em;
+            margin-bottom: 10px;
+            background: #f3f4f6;
+            transition: box-shadow 0.2s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            box-shadow: 0 0 0 2px #6366f1;
+            outline: none;
+        }
+        button[type="submit"] {
+            background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 32px;
+            font-size: 1em;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+            transition: background 0.2s, transform 0.2s;
+        }
+        button[type="submit"]:hover {
+            background: linear-gradient(90deg, #818cf8 0%, #6366f1 100%);
+            transform: scale(1.04);
+        }
+        .forgot {
+            margin-top: 18px;
+            font-size: 0.98em;
+        }
+        .forgot a {
+            color: #6366f1;
+            text-decoration: underline;
+        }
+        .error {
+            color: #ef4444;
+            margin-bottom: 12px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
-    {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
-    <form method="post">
-        {% csrf_token %}
-        <label for="username">Usuario:</label>
-        <input type="text" name="username" id="username" required><br>
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="password" required><br>
-        <button type="submit">Ingresar</button>
-    </form>
-    <p><a href="/password_reset/">¿Olvidaste tu contraseña?</a></p>
+    <nav class="menu" style="background: #2d2e32; color: #fff; padding: 0; margin-bottom: 40px; box-shadow: 0 2px 8px rgba(44,62,80,0.08);">
+        <ul class="menu-list" style="display: flex; justify-content: center; align-items: center; list-style: none; margin: 0; padding: 0;">
+            <li style="margin: 0 25px;"><a href="/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><path d="M10 2L2 8h2v8h4v-5h4v5h4V8h2L10 2z"/></svg>Inicio</a></li>
+            <li style="margin: 0 25px;"><a href="/artistas/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="7" r="4"/><path d="M2 18c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/></svg>Artistas</a></li>
+            <li style="margin: 0 25px;"><a href="/eventos/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><rect x="3" y="6" width="14" height="11" rx="2"/><path d="M7 2v4M13 2v4" stroke="#fff" stroke-width="2"/></svg>Eventos</a></li>
+            <li style="margin: 0 25px;"><a href="/espacios/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><rect x="4" y="8" width="12" height="8" rx="2"/><path d="M2 8l8-6 8 6"/></svg>Espacios</a></li>
+            <li style="margin: 0 25px;"><a href="/login/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/><path d="M10 14v-4M10 10V6" stroke="#fff" stroke-width="2"/></svg>Login</a></li>
+            <li style="margin: 0 25px;"><a href="/signup/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="7" r="4"/><path d="M2 18c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/><path d="M16 6v2M16 8h2"/></svg>Sign Up</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div style="margin-bottom: 18px;">
+            <svg width="48" height="48" fill="#6366f1" viewBox="0 0 24 24" style="margin-bottom: 8px;"><circle cx="12" cy="8" r="4"/><path d="M2 20c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/></svg>
+                <h2 style="margin:0;font-family:'Montserrat',Arial,sans-serif;">Iniciar sesión</h2>
+        </div>
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <label for="identifier" style="display:flex;align-items:center;gap:8px;">
+                    <svg width="20" height="20" fill="#6366f1" viewBox="0 0 20 20"><circle cx="10" cy="7" r="4"/><path d="M2 18c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/></svg>
+                    Usuario o Email
+                </label>
+                <input type="text" name="identifier" id="identifier" required placeholder="Usuario o email registrado">
+                <label for="password" style="display:flex;align-items:center;gap:8px;"> 
+                    <svg width="20" height="20" fill="#6366f1" viewBox="0 0 20 20"><rect x="4" y="8" width="12" height="8" rx="2"/><path d="M10 12v2" stroke="#6366f1" stroke-width="2"/></svg>
+                    Contraseña
+                    <span onclick="togglePassword('password')" style="cursor:pointer;">
+                        <svg id="eye-password" width="22" height="22" fill="#6366f1" viewBox="0 0 24 24"><path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>
+                    </span>
+                </label>
+                <input type="password" name="password" id="password" required>
+                <script>
+                function togglePassword(id) {
+                    var input = document.getElementById(id);
+                    var eye = document.getElementById('eye-' + id);
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        eye.innerHTML = '<path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm8.59-2.87l-1.42-1.42C18.36 13.36 19.5 12 19.5 12s-3-7-10-7c-1.61 0-3.09.39-4.41 1.08l1.42 1.42C5.64 6.64 7.5 6 10 6c7 0 10 7 10 7s-3 7-10 7c-2.5 0-4.36-.64-5.59-1.08z"/>';
+                    } else {
+                        input.type = 'password';
+                        eye.innerHTML = '<path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8a3 3 0 100 6 3 3 0 000-6z"/>';
+                    }
+                }
+                </script>
+                <button type="submit" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+                    <svg width="20" height="20" fill="#fff" viewBox="0 0 20 20"><path d="M2 10h16M10 2l8 8-8 8"/></svg>
+                    Ingresar
+                </button>
+            </form>
+        <div class="forgot" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+            <svg width="18" height="18" fill="#6366f1" viewBox="0 0 20 20"><path d="M10 2a8 8 0 1 0 8 8h-2a6 6 0 1 1-6-6V2z"/></svg>
+            <a href="/password_reset/">¿Olvidaste tu contraseña?</a>
+                <div style="font-size:1em;color:#6366f1;margin-top:8px;font-family:'Roboto',Arial,sans-serif;">Puedes ingresar con tu usuario o email registrado en cualquier categoría.</div>
+        </div>
+    </div>
 </body>
 </html>

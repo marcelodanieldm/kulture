@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buscar Artistas | Kulture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', Arial, sans-serif; background: #f8fafc; margin: 0; }
+        .container { max-width: 800px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(44,62,80,0.10); padding: 32px; }
+        h1 { font-family: 'Montserrat', Arial, sans-serif; color: #6366f1; font-size: 2em; margin-bottom: 24px; }
+        .artista { border-bottom: 1px solid #e5e7eb; padding: 18px 0; display: flex; align-items: center; }
+        .artista:last-child { border-bottom: none; }
+        .artista-img { width: 90px; height: 90px; border-radius: 12px; object-fit: cover; margin-right: 24px; background: #e0e7ff; }
+        .artista-info { flex: 1; }
+        .artista-nombre { font-size: 1.2em; font-weight: bold; color: #2d2e32; }
+        .artista-tipo { color: #6366f1; font-size: 0.98em; margin-bottom: 6px; }
+        .artista-desc { color: #374151; margin-bottom: 8px; font-size: 0.97em; }
+        .artista-link { background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%); color: #fff; border: none; border-radius: 8px; padding: 7px 16px; font-size: 0.95em; font-family: 'Montserrat', Arial, sans-serif; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; }
+        .artista-link:hover { background: linear-gradient(90deg, #818cf8 0%, #6366f1 100%); }
+        .buscador { margin-bottom: 24px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+        .buscador input, .buscador select { padding: 8px; border-radius: 8px; border: 1px solid #e5e7eb; font-size: 1em; }
+        .buscador button { background:#6366f1;color:#fff;border:none;padding:8px 18px;border-radius:8px;font-weight:bold; }
+        @media (max-width: 600px) { .container { padding: 12px; } h1 { font-size: 1.2em; } .artista { flex-direction: column; align-items: flex-start; } .artista-img { margin-bottom: 12px; } }
+    </style>
+</head>
+<body>
+    <nav class="menu" style="background: #2d2e32; color: #fff; padding: 0; margin-bottom: 40px; box-shadow: 0 2px 8px rgba(44,62,80,0.08);">
+        <ul class="menu-list" style="display: flex; justify-content: center; align-items: center; list-style: none; margin: 0; padding: 0;">
+            <li style="margin: 0 25px;"><a href="/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><path d="M10 2L2 8h2v8h4v-5h4v5h4V8h2L10 2z"/></svg>Inicio</a></li>
+            <li style="margin: 0 25px;"><a href="/artista/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="7" r="4"/><path d="M2 18c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/></svg>Artistas</a></li>
+            <li style="margin: 0 25px;"><a href="/eventos/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><rect x="3" y="6" width="14" height="11" rx="2"/><path d="M7 2v4M13 2v4" stroke="#fff" stroke-width="2"/></svg>Eventos</a></li>
+            <li style="margin: 0 25px;"><a href="/espacios/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><rect x="4" y="8" width="12" height="8" rx="2"/><path d="M2 8l8-6 8 6"/></svg>Espacios</a></li>
+            <li style="margin: 0 25px;"><a href="/login/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/><path d="M10 14v-4M10 10V6" stroke="#fff" stroke-width="2"/></svg>Login</a></li>
+            <li style="margin: 0 25px;"><a href="/signup/" style="color: #fff; text-decoration: none; font-family: 'Montserrat', Arial, sans-serif; font-size: 1.1em; padding: 12px 0; display: block; transition: color 0.2s;"><svg width="20" height="20" fill="currentColor" style="vertical-align:middle;margin-right:8px;" viewBox="0 0 20 20"><circle cx="10" cy="7" r="4"/><path d="M2 18c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/><path d="M16 6v2M16 8h2"/></svg>Sign Up</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Buscar Artistas</h1>
+        <form method="get" class="buscador">
+            <select name="tipo_arte">
+                <option value="">Todos los tipos de arte</option>
+                <option value="Musica" {% if tipo_arte == 'Musica' %}selected{% endif %}>Música</option>
+                <option value="Teatro" {% if tipo_arte == 'Teatro' %}selected{% endif %}>Teatro</option>
+                <option value="Danza" {% if tipo_arte == 'Danza' %}selected{% endif %}>Danza</option>
+                <option value="Literatura" {% if tipo_arte == 'Literatura' %}selected{% endif %}>Literatura</option>
+                <option value="Artes Visuales" {% if tipo_arte == 'Artes Visuales' %}selected{% endif %}>Artes Visuales</option>
+            </select>
+            <input type="number" name="ranking_min" value="{{ ranking_min }}" placeholder="Ranking mínimo" min="0" max="5">
+            <input type="number" name="ranking_max" value="{{ ranking_max }}" placeholder="Ranking máximo" min="0" max="5">
+            <input type="text" name="ciudad" value="{{ ciudad }}" placeholder="Ciudad">
+            <input type="text" name="pais" value="{{ pais }}" placeholder="País">
+            <button type="submit">Filtrar</button>
+        </form>
+        {% for artista in artistas %}
+            <div class="artista">
+                {% if artista.foto and artista.foto.url %}
+                    <img src="{{ artista.foto.url }}" alt="Foto del artista" class="artista-img">
+                {% else %}
+                    <img src="/static/img/artist_default.jpg" alt="Foto del artista" class="artista-img">
+                {% endif %}
+                <div class="artista-info">
+                    <div class="artista-nombre">{{ artista.user.username }}</div>
+                    <div class="artista-tipo">Tipo de arte: {{ artista.sectors|join:', ' }}</div>
+                    <div class="artista-desc">{{ artista.description|truncatechars:200 }}</div>
+                    <a href="/artista/{{ artista.id }}/" class="artista-link">Ver artista</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No se encontraron artistas.</p>
+        {% endfor %}
+        <div style="margin-top:32px;text-align:center;">
+            {% if page_obj.has_previous %}
+                <a href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}" style="margin-right:10px;">&laquo; Anterior</a>
+            {% endif %}
+            <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{k}}={{v}}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}" style="margin-left:10px;">Siguiente &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

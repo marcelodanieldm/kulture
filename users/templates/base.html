@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Kulture</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
+            min-height: 100vh;
+        }
+        .menu {
+            background: #2d2e32;
+            color: #fff;
+            padding: 0;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+        }
+        .menu-list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .menu-list li {
+            margin: 0 25px;
+        }
+        .menu-list a {
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1.1em;
+            padding: 12px 0;
+            display: block;
+            transition: color 0.2s;
+        }
+        .menu-list a:hover {
+            color: #6366f1;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="menu">
+        <ul class="menu-list">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/artistas/">Artistas</a></li>
+            <li><a href="/eventos/">Eventos</a></li>
+            <li><a href="/espacios/">Espacios</a></li>
+            <li><a href="/blog/">Blog</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="/logout/" style="color:#6366f1;font-weight:bold;">Cerrar sesión</a></li>
+            {% else %}
+                <li><a href="/login/">Login</a></li>
+                <li><a href="/signup/">Sign Up</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
