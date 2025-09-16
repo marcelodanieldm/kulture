@@ -17,14 +17,14 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from users.views import login_view, signup_view, home, crear_usuarios_prueba, home_superusuario, logout_view, signup_artist, signup_evento, signup_space
+from users.views import login_view, signup_view, home, crear_usuarios_prueba, home_superusuario, logout_view, signup_artist, signup_evento, signup_space, home_colaborador
 from spaces.views import home_espacio_cultural, espacio_list, exportar_balance_pdf
 from artists.views import home_artista, artist_list
-from events.views import comprar_ticket, ticket_exito
-from events.views import comprar_ticket, ticket_exito, lista_eventos
+from events.views import comprar_ticket, ticket_exito, lista_eventos, crear_evento, detalle_evento, descargar_qr_png, descargar_qr_pdf, eventos_por_venir, editar_evento, eliminar_evento, home_evento
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    path('eventos/crear/', crear_evento, name='crear_evento'),
     path('espacio/exportar-balance/', exportar_balance_pdf, name='exportar_balance_pdf'),
     path('', home, name='home'),
     path('admin/', admin.site.urls),
@@ -47,5 +47,13 @@ urlpatterns = [
     path('comprar-ticket/<int:event_id>/', comprar_ticket, name='comprar_ticket'),
     path('ticket-exito/<int:event_id>/', ticket_exito, name='ticket_exito'),
     path('eventos/', lista_eventos, name='lista_eventos'),
+    path('eventos/<int:event_id>/', detalle_evento, name='detalle_evento'),
+        path('eventos/<int:event_id>/qr.png', descargar_qr_png, name='descargar_qr_png'),
+        path('eventos/<int:event_id>/qr.pdf', descargar_qr_pdf, name='descargar_qr_pdf'),
+    path('eventos/por-venir/', eventos_por_venir, name='eventos_por_venir'),
+    path('eventos/<int:event_id>/editar/', editar_evento, name='editar_evento'),
+    path('eventos/<int:event_id>/eliminar/', eliminar_evento, name='eliminar_evento'),
+    path('evento/', home_evento, name='home_evento'),
+        path('colaborador/', home_colaborador, name='home_colaborador'),
     path('blog/', include('blog.urls')),
 ]

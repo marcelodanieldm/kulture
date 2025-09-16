@@ -1,14 +1,23 @@
 from django.db import models
-
-# Create your models here.
-# events/models.py
-
-from django.db import models
 from users.models import CustomUser
 from spaces.models import SpaceProfile
 from artists.models import ArtistProfile
-
 class Event(models.Model):
+    @property
+    def lugares_vendidos(self):
+        return self.total_seats - self.available_seats
+    @property
+    def estado_publicacion(self):
+        from django.utils import timezone
+        ahora = timezone.now()
+        if self.fecha_publicacion_inicio and self.fecha_publicacion_fin:
+            if ahora < self.fecha_publicacion_inicio:
+                return 'Programado'
+            elif self.fecha_publicacion_inicio <= ahora <= self.fecha_publicacion_fin:
+                return 'Publicado'
+            else:
+                return 'Finalizado'
+        return 'Sin programar'
     horario = models.DateTimeField(null=True, blank=True)
     name = models.CharField(max_length=200)
     organizer = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -28,6 +37,8 @@ class Event(models.Model):
     codigo_promocion = models.CharField(max_length=50, blank=True)
     porcentaje_descuento = models.PositiveIntegerField(default=0)
     comentario_novedades = models.TextField(blank=True)
+    fecha_publicacion_inicio = models.DateTimeField(null=True, blank=True)
+    fecha_publicacion_fin = models.DateTimeField(null=True, blank=True)
 
     @property
     def is_full(self):

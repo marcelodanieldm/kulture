@@ -1,13 +1,124 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Home Artista</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Artista</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <style>
+        body {
+            background: #18181b;
+            color: #e5e7eb;
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(90deg,#6366f1 0%,#818cf8 100%);
+            color: #fff;
+            padding: 38px 0 28px 0;
+            margin-bottom: 38px;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 6px 24px rgba(44,62,80,0.13);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .section {
+            margin-bottom: 38px;
+        }
+        .card {
+            background: #23232a;
+            border-radius: 18px;
+            box-shadow: 0 2px 16px rgba(44,62,80,0.13);
+            padding: 32px 28px;
+            margin-bottom: 24px;
+            transition: box-shadow 0.2s;
+        }
+        .card:hover {
+            box-shadow: 0 6px 32px rgba(99,102,241,0.18);
+        }
+        .section-title {
+            font-size: 1.5em;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 700;
+            color: #a5b4fc;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #6366f1;
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+        }
+        .actions {
+            display: flex;
+            gap: 18px;
+            margin-top: 12px;
+        }
+        .btn {
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 22px;
+            font-size: 1em;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #818cf8;
+        }
+        a {
+            color: #a5b4fc;
+            text-decoration: none;
+        }
+        .logout {
+            color: #f87171;
+            font-weight: bold;
+        }
+        textarea, input[type="text"], input[type="number"], input[type="datetime-local"] {
+            background: #18181b;
+            color: #e5e7eb;
+            border: 1px solid #6366f1;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            width: 100%;
+        }
+        label {
+            font-weight: 500;
+            color: #a5b4fc;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <header style="background:linear-gradient(90deg,#6366f1 0%,#818cf8 100%);color:#fff;padding:38px 0 28px 0;margin-bottom:38px;border-radius:0 0 24px 24px;box-shadow:0 6px 24px rgba(44,62,80,0.13);position:sticky;top:0;z-index:10;">
-        <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
+    <div class="header">
+        <div class="container" style="display:flex;align-items:center;justify-content:space-between;">
             <div style="display:flex;align-items:center;gap:18px;">
-                <span style="display:inline-flex;align-items:center;justify-content:center;background:#fff;border-radius:50%;padding:12px;box-shadow:0 2px 8px rgba(44,62,80,0.10);">
+                <span class="icon" style="background:#fff;">
                     <svg width="44" height="44" fill="#6366f1" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M2 20c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/></svg>
                 </span>
                 <div>
@@ -15,135 +126,168 @@
                     <div style="font-size:1.08em;font-family:'Manrope',Arial,sans-serif;color:#e0e7ff;margin-top:2px;">Artista</div>
                 </div>
             </div>
-            <div style="display:flex;align-items:center;gap:24px;">
-                <a href="/logout/" title="Cerrar sesión" style="color:#fff;">
-                    <span style="display:inline-flex;align-items:center;justify-content:center;background:#f87171;border-radius:50%;padding:10px;box-shadow:0 2px 8px rgba(44,62,80,0.10);">
-                        <svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3z"/><rect x="16" y="3" width="6" height="18" rx="2"/></svg>
-                    </span>
+            <div class="actions">
+                <a href="/logout/" title="Sign out" class="btn logout">
+                    <svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3z"/><rect x="16" y="3" width="6" height="18" rx="2"/></svg>
+                    Cerrar sesión
                 </a>
-                <a href="/editar-perfil/" title="Editar perfil" style="color:#fff;">
-                    <span style="display:inline-flex;align-items:center;justify-content:center;background:#34d399;border-radius:50%;padding:10px;box-shadow:0 2px 8px rgba(44,62,80,0.10);">
-                        <svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zm14.71-9.04c.39-.39.39-1.02 0-1.41l-2.54-2.54a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                    </span>
+                <a href="/editar-perfil/" title="Editar perfil" class="btn">
+                    <svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zm14.71-9.04c.39-.39.39-1.02 0-1.41l-2.54-2.54a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    Editar perfil
                 </a>
-                <a href="/ayuda/" title="Ayuda" style="color:#fff;">
-                    <span style="display:inline-flex;align-items:center;justify-content:center;background:#6366f1;border-radius:50%;padding:10px;box-shadow:0 2px 8px rgba(44,62,80,0.10);">
-                        <svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 17h0v-2h0v2zm1.07-7.75c-.9.92-1.07 1.24-1.07 2.25h-2v-.5c0-1.1.45-1.99 1.36-2.91.93-.93 1.64-1.54 1.64-2.59 0-1.3-1.05-2.25-2.5-2.25s-2.5.95-2.5 2.25H7c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.45-.77 2.34-1.93 3.25z"/></svg>
-                    </span>
+                <a href="/ayuda/" title="Ayuda" class="btn">
+                    <svg width="24" height="24" fill="#fff" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 17h0v-2h0v2zm1.07-7.75c-.9.92-1.07 1.24-1.07 2.25h-2v-.5c0-1.1.45-1.99 1.36-2.91.93-.93 1.64-1.54 1.64-2.59 0-1.3-1.05-2.25-2.5-2.25s-2.5.95-2.5 2.25H7c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.45-.77 2.34-1.93 3.25z"/></svg>
+                    Ayuda
                 </a>
             </div>
         </div>
-        <div style="font-size:1.18em;font-family:'Manrope',Arial,sans-serif;margin-top:18px;color:#e0e7ff;text-align:left;max-width:1100px;margin:0 auto;">¡Bienvenido/a artista!</div>
-    </header>
-    <h1>{{ artist.user.username }}</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="description">Descripción de perfil:</label><br>
-        <textarea name="description" rows="4" cols="50">{{ artist.description }}</textarea><br>
-        <button type="submit">Guardar descripción</button>
-    </form>
-    <h2>Venta de entradas y calendario</h2>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="new_event" value="1">
-        <label for="event_name">Nombre:</label>
-        <input type="text" name="event_name" required>
-        <label for="event_date">Fecha:</label>
-        <input type="datetime-local" name="event_date" required>
-        <label for="event_description">Descripción:</label>
-        <input type="text" name="event_description">
-        <label for="event_price">Precio:</label>
-        <input type="number" name="event_price" step="0.01">
-        <label for="event_seats">Asientos:</label>
-        <input type="number" name="event_seats" required>
-        <button type="submit">Crear evento</button>
-    </form>
-    <ul>
-        {% for evento in eventos %}
-            <li>
-                {% if edit_event and edit_event.id == evento.id %}
-                <form method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="edit_event_id" value="{{ evento.id }}">
-                    <input type="text" name="event_name" value="{{ evento.name }}" required>
-                    <input type="datetime-local" name="event_date" value="{{ evento.date|date:'Y-m-d\TH:i' }}" required>
-                    <input type="text" name="event_description" value="{{ evento.description }}">
-                    <input type="number" name="event_price" step="0.01" value="{{ evento.price }}">
-                    <input type="number" name="event_seats" value="{{ evento.total_seats }}" required>
-                    <button type="submit">Guardar</button>
-                </form>
-                {% else %}
-                {{ evento.name }} - {{ evento.date }} - Asientos disponibles: {{ evento.available_seats }} - Precio: ${{ evento.price }}
-                <form method="get" style="display:inline;">
-                    <button type="submit" name="edit_event" value="{{ evento.id }}">Editar</button>
-                </form>
-                <form method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" name="delete_event" value="{{ evento.id }}">Eliminar</button>
-                </form>
-                {% endif %}
-            </li>
-        {% empty %}
-            <li>No hay eventos próximos.</li>
-        {% endfor %}
-    </ul>
-    <h2>Ventas y Balance</h2>
-    <p><strong>Total ventas:</strong> ${{ total_ventas }}</p>
-    <form method="post">
-        {% csrf_token %}
-        <label for="concept">Nuevo gasto:</label>
-        <input type="text" name="concept" placeholder="Concepto">
-        <input type="number" name="amount" step="0.01" placeholder="Monto">
-        <button type="submit" name="add_expense">Agregar gasto</button>
-    </form>
-    <h3>Gastos</h3>
-    <ul>
-        {% for expense in expenses %}
-            <li>{{ expense.concept }} - ${{ expense.amount }} - {{ expense.date }}</li>
-        {% empty %}
-            <li>No hay gastos registrados.</li>
-        {% endfor %}
-    </ul>
-    <p><strong>Ganancia total:</strong> ${{ total_ganancia }}</p>
-    <h3>Tickets vendidos</h3>
-    <ul>
-        {% for ticket in tickets %}
-            <li>{{ ticket.buyer_name }} - {{ ticket.seats_reserved }} asiento(s) - ${{ ticket.amount_paid }} - {{ ticket.purchase_date }}</li>
-        {% empty %}
-            <li>No hay tickets vendidos.</li>
-        {% endfor %}
-    </ul>
-    <h2>Blog de anuncios</h2>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="blog_post" placeholder="Nuevo anuncio">
-        <button type="submit">Agregar anuncio</button>
-    </form>
-    <ul>
-        {% for post in blog %}
-            <li>
-                {% if edit_blog_idx == forloop.counter0 %}
-                <form method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="edit_blog_idx" value="{{ forloop.counter0 }}">
-                    <input type="text" name="edit_blog_value" value="{{ edit_blog_value }}">
-                    <button type="submit">Guardar</button>
-                </form>
-                {% else %}
-                {{ post }}
-                <form method="get" style="display:inline;">
-                    <button type="submit" name="edit_blog" value="{{ forloop.counter0 }}">Editar</button>
-                </form>
-                <form method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" name="delete_blog" value="{{ forloop.counter0 }}">Eliminar</button>
-                </form>
-                {% endif %}
-            </li>
-        {% empty %}
-            <li>No hay anuncios.</li>
-        {% endfor %}
-    </ul>
-    <p><a href="/logout/" style="color:#6366f1;font-weight:bold;">Cerrar sesión</a></p>
+        <div class="container" style="font-size:1.18em;font-family:'Manrope',Arial,sans-serif;margin-top:18px;color:#e0e7ff;text-align:left;">¡Bienvenido/a artista!</div>
+    </div>
+    <div id="dashboard" class="container">
+        <!-- Sección Perfil -->
+        <div class="section card">
+            <div class="section-title">
+                <span class="icon"><svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M2 20c0-4 8-4 8-4s8 0 8 4v2H2v-2z"/></svg></span>
+                Perfil
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <label for="description">Descripción de perfil:</label>
+                <textarea name="description" rows="3">{{ artist.description }}</textarea>
+                <button type="submit" class="btn">Guardar descripción</button>
+            </form>
+        </div>
+        <!-- Sección Eventos -->
+        <div class="section card">
+            <div class="section-title">
+                <span class="icon"><svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M12 2v20" stroke="#fff" stroke-width="2"/></svg></span>
+                Eventos y calendario
+            </div>
+            <form method="post" style="margin-bottom:18px;">
+                {% csrf_token %}
+                <input type="hidden" name="new_event" value="1">
+                <label for="event_name">Nombre:</label>
+                <input type="text" name="event_name" required>
+                <label for="event_date">Fecha:</label>
+                <input type="datetime-local" name="event_date" required>
+                <label for="event_description">Descripción:</label>
+                <input type="text" name="event_description">
+                <label for="event_price">Precio:</label>
+                <input type="number" name="event_price" step="0.01">
+                <label for="event_seats">Asientos:</label>
+                <input type="number" name="event_seats" required>
+                <button type="submit" class="btn">Crear evento</button>
+            </form>
+            <ul>
+                {% for evento in eventos %}
+                    <li class="card" style="background:#18181b;box-shadow:0 2px 8px rgba(99,102,241,0.10);">
+                        {% if edit_event and edit_event.id == evento.id %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="edit_event_id" value="{{ evento.id }}">
+                            <input type="text" name="event_name" value="{{ evento.name }}" required>
+                            <input type="datetime-local" name="event_date" value="{{ evento.date|date:'Y-m-d\TH:i' }}" required>
+                            <input type="text" name="event_description" value="{{ evento.description }}">
+                            <input type="number" name="event_price" step="0.01" value="{{ evento.price }}">
+                            <input type="number" name="event_seats" value="{{ evento.total_seats }}" required>
+                            <button type="submit" class="btn">Guardar</button>
+                        </form>
+                        {% else %}
+                        <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <div>
+                                <strong>{{ evento.name }}</strong> <span style="color:#a5b4fc;">{{ evento.date }}</span><br>
+                                <span style="color:#34d399;">Asientos disponibles: {{ evento.available_seats }}</span> <span style="color:#fbbf24;">Precio: ${{ evento.price }}</span>
+                            </div>
+                            <div style="display:flex;gap:10px;">
+                                <form method="get">
+                                    <button type="submit" name="edit_event" value="{{ evento.id }}" class="btn" style="background:#818cf8;">Editar</button>
+                                </form>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" name="delete_event" value="{{ evento.id }}" class="btn" style="background:#f87171;">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li>No hay eventos próximos.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Sección Balance -->
+        <div class="section card">
+            <div class="section-title">
+                <span class="icon"><svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 10h12v4H6z" fill="#6366f1"/></svg></span>
+                Ventas y Balance
+            </div>
+            <p><strong>Total ventas:</strong> ${{ total_ventas }}</p>
+            <form method="post" style="margin-bottom:12px;">
+                {% csrf_token %}
+                <label for="concept">Nuevo gasto:</label>
+                <input type="text" name="concept" placeholder="Concepto">
+                <input type="number" name="amount" step="0.01" placeholder="Monto">
+                <button type="submit" name="add_expense" class="btn">Agregar gasto</button>
+            </form>
+            <h3 style="color:#a5b4fc;">Gastos</h3>
+            <ul>
+                {% for expense in expenses %}
+                    <li>{{ expense.concept }} - ${{ expense.amount }} - {{ expense.date }}</li>
+                {% empty %}
+                    <li>No hay gastos registrados.</li>
+                {% endfor %}
+            </ul>
+            <p><strong>Ganancia total:</strong> ${{ total_ganancia }}</p>
+            <h3 style="color:#a5b4fc;">Tickets vendidos</h3>
+            <ul>
+                {% for ticket in tickets %}
+                    <li>{{ ticket.buyer_name }} - {{ ticket.seats_reserved }} asiento(s) - ${{ ticket.amount_paid }} - {{ ticket.purchase_date }}</li>
+                {% empty %}
+                    <li>No hay tickets vendidos.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Sección Blog -->
+        <div class="section card">
+            <div class="section-title">
+                <span class="icon"><svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 8h8v2H8zm0 4h8v2H8zm0 4h5v2H8z" fill="#6366f1"/></svg></span>
+                Blog de anuncios
+            </div>
+            <form method="post" style="margin-bottom:12px;">
+                {% csrf_token %}
+                <input type="text" name="blog_post" placeholder="Nuevo anuncio">
+                <button type="submit" class="btn">Agregar anuncio</button>
+            </form>
+            <ul>
+                {% for post in blog %}
+                    <li class="card" style="background:#18181b;box-shadow:0 2px 8px rgba(99,102,241,0.10);">
+                        {% if edit_blog_idx == forloop.counter0 %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="edit_blog_idx" value="{{ forloop.counter0 }}">
+                            <input type="text" name="edit_blog_value" value="{{ edit_blog_value }}">
+                            <button type="submit" class="btn">Guardar</button>
+                        </form>
+                        {% else %}
+                        <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <span>{{ post }}</span>
+                            <div style="display:flex;gap:10px;">
+                                <form method="get">
+                                    <button type="submit" name="edit_blog" value="{{ forloop.counter0 }}" class="btn" style="background:#818cf8;">Editar</button>
+                                </form>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" name="delete_blog" value="{{ forloop.counter0 }}" class="btn" style="background:#f87171;">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li>No hay anuncios.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ evento.name }}</h2>
+<p><strong>Descripción:</strong> {{ evento.description }}</p>
+<p><strong>Fecha:</strong> {{ evento.date }}</p>
+<p><strong>Horario:</strong> {{ evento.horario }}</p>
+<p><strong>Ciudad:</strong> {{ evento.ciudad }}</p>
+<p><strong>País:</strong> {{ evento.pais }}</p>
+<p><strong>Precio:</strong> {{ evento.price }} {{ evento.moneda }}</p>
+<p><strong>Entradas disponibles:</strong> {{ evento.available_seats }}</p>
+<p><strong>Tags:</strong> {{ evento.tags }}</p>
+<p><strong>Categoría de arte:</strong> {{ evento.categoria_arte }}</p>
+<p><strong>Comentario:</strong> {{ evento.comentario_novedades }}</p>
+{% if evento.fotos %}
+    <img src="{{ evento.fotos.url }}" alt="Foto del evento" style="max-width:300px;">
+{% endif %}
+<a href="{% url 'comprar_ticket' evento.id %}" class="btn btn-success">Comprar entradas</a>
+<h3>Código QR del evento</h3>
+{% if qr_bytes %}
+    <img src="data:image/png;base64,{{ qr_bytes|b64encode }}" alt="QR del evento" style="max-width:200px;" />
+    <div style="margin-top:10px;">
+        <a href="{% url 'descargar_qr_png' evento.id %}" class="btn btn-info">Descargar PNG</a>
+        <a href="{% url 'descargar_qr_pdf' evento.id %}" class="btn btn-warning">Descargar PDF</a>
+        <a href="{{ whatsapp_url }}" target="_blank" class="btn btn-success">Compartir por WhatsApp</a>
+    </div>
+{% endif %}
+{% endblock %}

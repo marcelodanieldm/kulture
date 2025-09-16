@@ -1,3 +1,10 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+# Dashboard para usuarios tipo colaborador
+@login_required
+def home_colaborador(request):
+	return render(request, 'home_colaborador.html', {})
 def signup_artist(request):
 	from artists.models import ArtistProfile
 	if request.method == 'POST':
@@ -212,8 +219,10 @@ def login_view(request):
 					return redirect('home_artista')
 				elif user.user_type == 'space':
 					return redirect('home_espacio_cultural')
-				elif user.user_type == 'colaborador':
+				elif user.user_type == 'collaborator':
 					return redirect('home_colaborador')
+				elif user.user_type == 'evento':
+					return redirect('home_evento')
 			return redirect('admin:index')
 		else:
 			return render(request, 'login.html', {'error': 'Credenciales inválidas'})

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Eventos por venir</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha</th>
+            <th>Vendidos</th>
+            <th>Libres</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for evento in eventos %}
+        <tr>
+            <td>{{ evento.name }}</td>
+            <td>{{ evento.date }}</td>
+            <td>{{ evento.total_seats|add:-evento.available_seats }}</td>
+            <td>{{ evento.available_seats }}</td>
+            <td>
+                <a href="{% url 'editar_evento' evento.id %}" class="btn btn-sm btn-primary">Editar</a>
+                <a href="{% url 'eliminar_evento' evento.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                <a href="{% url 'detalle_evento' evento.id %}" class="btn btn-sm btn-info">Ver</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="5">No hay eventos próximos.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+    {% endif %}
+    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+    {% endif %}
+</div>
+{% endblock %}

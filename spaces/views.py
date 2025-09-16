@@ -49,39 +49,22 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.utils import timezone
 def espacio_list(request):
-	espacios = SpaceProfile.objects.all()
-	ciudad = request.GET.get('ciudad', '')
-	pais = request.GET.get('pais', '')
-	actividades = request.GET.get('actividades', '')
-	puntaje_min = request.GET.get('puntaje_min', '')
-	puntaje_max = request.GET.get('puntaje_max', '')
-
-	if ciudad:
-		espacios = espacios.filter(ciudad__icontains=ciudad)
-	if pais:
-		espacios = espacios.filter(pais__icontains=pais)
-	if actividades == 'paga':
-		espacios = espacios.filter(actividades__icontains='paga')
-	elif actividades == 'gratuita':
-		espacios = espacios.filter(actividades__icontains='gratuita')
-	if puntaje_min:
-		espacios = espacios.filter(puntaje__gte=puntaje_min)
-	if puntaje_max:
-		espacios = espacios.filter(puntaje__lte=puntaje_max)
-
-	paginator = Paginator(espacios, 10)
-	page_number = request.GET.get('page')
-	page_obj = paginator.get_page(page_number)
-
-	return render(request, 'espacio_list.html', {
-		'espacios': page_obj.object_list,
-		'page_obj': page_obj,
-		'ciudad': ciudad,
-		'pais': pais,
-		'actividades': actividades,
-		'puntaje_min': puntaje_min,
-		'puntaje_max': puntaje_max,
-	})
+	espacios = []
+	for espacio in SpaceProfile.objects.select_related('user').all():
+		espacios.append({
+			'id': espacio.id,
+			'nombre': espacio.user.username,
+			'descripcion': espacio.description,
+			'ciudad': espacio.user.city,
+			'pais': espacio.user.country,
+			'miembros': espacio.members,
+			'sectores': espacio.sectors,
+			'total_seats': espacio.total_seats,
+			'available_seats': espacio.available_seats,
+			'foto': espacio.foto.url if espacio.foto else '',
+			'profile_image': espacio.user.profile_image.url if espacio.user.profile_image else '',
+		})
+	return render(request, 'espacios.html', {'espacios': espacios})
 from django.contrib.auth.decorators import login_required
 from users.models import CustomUser
 from .models import SpaceProfile
@@ -124,7 +107,14 @@ def home_espacio_cultural(request):
 		})
 	from django.core.paginator import Paginator
 	eventos = Event.objects.filter(space=space_profile)
+	# Filtros para eventos por venir
+	filtro_nombre = request.GET.get('filtro_nombre', '').strip()
+	filtro_fecha = request.GET.get('filtro_fecha', '').strip()
 	eventos_por_venir_qs = eventos.filter(date__gte=timezone.now()).order_by('date')
+	if filtro_nombre:
+		eventos_por_venir_qs = eventos_por_venir_qs.filter(name__icontains=filtro_nombre)
+	if filtro_fecha:
+		eventos_por_venir_qs = eventos_por_venir_qs.filter(date__date=filtro_fecha)
 	paginator = Paginator(eventos_por_venir_qs, 5)
 	page_number = request.GET.get('page')
 	eventos_por_venir = paginator.get_page(page_number)
@@ -135,6 +125,8 @@ def home_espacio_cultural(request):
 	total_ventas = sum(t.amount_paid for t in tickets)
 	total_gastos = sum(e.amount for e in expenses)
 	total_ganancia = total_ventas - total_gastos
+	total_asistentes = sum(t.seats_reserved for t in tickets)
+	total_tickets = tickets.count()
 	if request.method == 'POST' and space_profile:
 		if 'add_expense' in request.POST:
 			concept = request.POST.get('concept')
@@ -209,14 +201,26 @@ def home_espacio_cultural(request):
 			space_profile.total_seats = total_seats
 			space_profile.available_seats = int(request.POST.get('available_seats', space_profile.available_seats))
 			space_profile.save()
+	# Métricas avanzadas
+	eventos_count = eventos.count() if eventos.exists() else 1
+	promedio_ventas_evento = total_ventas / eventos_count if eventos_count else 0
+	total_seats = sum(e.total_seats for e in eventos)
+	total_ocupados = sum(e.total_seats - e.available_seats for e in eventos)
+	porcentaje_ocupacion = (total_ocupados / total_seats * 100) if total_seats else 0
+	evento_mas_vendido = max(eventos, key=lambda e: e.total_seats - e.available_seats, default=None)
 	return render(request, 'home_espacio_cultural.html', {
-	'space': space_profile,
-	'eventos': eventos,
-	'sala_llena': sala_llena,
-	'tickets': tickets,
-	'expenses': expenses,
-	'total_ventas': total_ventas,
-	'total_ganancia': total_ganancia,
-	'eventos_por_venir': eventos_por_venir,
-	'balance_mensual': balance_mensual
+		'space': space_profile,
+		'eventos': eventos,
+		'sala_llena': sala_llena,
+		'tickets': tickets,
+		'expenses': expenses,
+		'total_ventas': total_ventas,
+		'total_ganancia': total_ganancia,
+		'total_asistentes': total_asistentes,
+		'total_tickets': total_tickets,
+		'promedio_ventas_evento': promedio_ventas_evento,
+		'porcentaje_ocupacion': porcentaje_ocupacion,
+		'evento_mas_vendido': evento_mas_vendido,
+		'eventos_por_venir': eventos_por_venir,
+		'balance_mensual': balance_mensual
 	})

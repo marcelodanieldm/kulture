@@ -19,7 +19,7 @@ def blog_detail(request, post_id):
 	return render(request, 'blog/blog_detail.html', {'post': post})
 
 def is_colaborador(user):
-	return hasattr(user, 'user_type') and user.user_type == 'colaborador'
+	return hasattr(user, 'user_type') and user.user_type in ['colaborador', 'collaborator']
 
 @login_required
 @user_passes_test(is_colaborador)

@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
                 ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('user_type', models.CharField(choices=[('super', 'Super Usuario'), ('artist', 'Artista'), ('space', 'Espacio Cultural'), ('collaborator', 'Colaborador')], default='artist', max_length=20)),
+                ('user_type', models.CharField(choices=[('super', 'Super Usuario'), ('artist', 'Artista'), ('space', 'Espacio Cultural'), ('collaborator', 'Colaborador'), ('evento', 'Evento')], default='artist', max_length=20)),
                 ('city', models.CharField(blank=True, max_length=100, null=True)),
                 ('country', models.CharField(blank=True, max_length=100, null=True)),
                 ('profile_image', models.ImageField(blank=True, null=True, upload_to='profiles/')),

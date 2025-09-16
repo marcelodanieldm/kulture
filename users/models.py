@@ -9,10 +9,11 @@ from django.utils.translation import gettext_lazy as _
 
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
-        ('super', 'Super Usuario'),
+        ('super', 'Superusuario'),
         ('artist', 'Artista'),
-        ('space', 'Espacio Cultural'),
-        ('colaborador', 'Colaborador'),
+        ('space', 'Espacio cultural'),
+        ('collaborator', 'Colaborador'),
+        ('evento', 'Evento'),
     )
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='artist')
     city = models.CharField(max_length=100, blank=True, null=True)

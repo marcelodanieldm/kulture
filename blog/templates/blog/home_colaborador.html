@@ -93,6 +93,9 @@
                 <div style="font-size:1.6em;font-family:'Montserrat',Arial,sans-serif;font-weight:bold;color:#222;">{{ user.username }}</div>
                 <div style="font-size:1em;font-family:'Roboto',Arial,sans-serif;color:#6366f1;">Categoría: {{ user.get_user_type_display }}</div>
             </div>
+            <a href="/logout/" title="Sign out" style="color:#6366f1;text-decoration:none;font-size:1em;display:flex;align-items:center;gap:8px;font-weight:500;margin-left:24px;">
+                <svg width="22" height="22" fill="#6366f1" viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3z"/><rect x="16" y="3" width="6" height="18" rx="2"/></svg> Sign out
+            </a>
         </div>
         <div style="font-size:1.08em;font-family:'Roboto',Arial,sans-serif;margin-top:8px;color:#222;">¡Bienvenido/a, {{ user.username }}!</div>
         <nav style="margin-top:14px;display:flex;justify-content:center;gap:28px;">
