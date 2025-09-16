@@ -157,95 +157,232 @@
                 <button type="submit" class="btn">Guardar descripción</button>
             </form>
         </div>
-        <!-- Sección Eventos -->
+
+        <!-- Sección Eventos Vue -->
         <div class="section card">
             <div class="section-title">
                 <span class="icon"><svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M12 2v20" stroke="#fff" stroke-width="2"/></svg></span>
                 Eventos y calendario
             </div>
-            <form method="post" style="margin-bottom:18px;">
-                {% csrf_token %}
-                <input type="hidden" name="new_event" value="1">
-                <label for="event_name">Nombre:</label>
-                <input type="text" name="event_name" required>
-                <label for="event_date">Fecha:</label>
-                <input type="datetime-local" name="event_date" required>
-                <label for="event_description">Descripción:</label>
-                <input type="text" name="event_description">
-                <label for="event_price">Precio:</label>
-                <input type="number" name="event_price" step="0.01">
-                <label for="event_seats">Asientos:</label>
-                <input type="number" name="event_seats" required>
-                <button type="submit" class="btn">Crear evento</button>
-            </form>
-            <ul>
-                {% for evento in eventos %}
-                    <li class="card" style="background:#18181b;box-shadow:0 2px 8px rgba(99,102,241,0.10);">
-                        {% if edit_event and edit_event.id == evento.id %}
-                        <form method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="edit_event_id" value="{{ evento.id }}">
-                            <input type="text" name="event_name" value="{{ evento.name }}" required>
-                            <input type="datetime-local" name="event_date" value="{{ evento.date|date:'Y-m-d\TH:i' }}" required>
-                            <input type="text" name="event_description" value="{{ evento.description }}">
-                            <input type="number" name="event_price" step="0.01" value="{{ evento.price }}">
-                            <input type="number" name="event_seats" value="{{ evento.total_seats }}" required>
-                            <button type="submit" class="btn">Guardar</button>
-                        </form>
-                        {% else %}
+            <div id="eventos-vue">
+                <form @submit.prevent="crearEvento" style="margin-bottom:18px;">
+                    <label for="event_name">Nombre:</label>
+                    <input type="text" v-model="nuevoEvento.name" required>
+                    <label for="event_date">Fecha:</label>
+                    <input type="datetime-local" v-model="nuevoEvento.date" required>
+                    <label for="event_description">Descripción:</label>
+                    <input type="text" v-model="nuevoEvento.description">
+                    <label for="event_price">Precio:</label>
+                    <input type="number" v-model="nuevoEvento.price" step="0.01">
+                    <label for="event_seats">Asientos:</label>
+                    <input type="number" v-model="nuevoEvento.seats" required>
+                    <button type="submit" class="btn">Crear evento</button>
+                </form>
+                <ul>
+                    <li v-for="(evento, idx) in eventos" :key="idx" class="card" style="background:#18181b;box-shadow:0 2px 8px rgba(99,102,241,0.10);">
                         <div style="display:flex;align-items:center;justify-content:space-between;">
                             <div>
                                 <strong>{{ evento.name }}</strong> <span style="color:#a5b4fc;">{{ evento.date }}</span><br>
-                                <span style="color:#34d399;">Asientos disponibles: {{ evento.available_seats }}</span> <span style="color:#fbbf24;">Precio: ${{ evento.price }}</span>
+                                <span style="color:#34d399;">Asientos disponibles: {{ evento.seats }}</span> <span style="color:#fbbf24;">Precio: ${{ evento.price }}</span>
                             </div>
                             <div style="display:flex;gap:10px;">
-                                <form method="get">
-                                    <button type="submit" name="edit_event" value="{{ evento.id }}" class="btn" style="background:#818cf8;">Editar</button>
-                                </form>
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" name="delete_event" value="{{ evento.id }}" class="btn" style="background:#f87171;">Eliminar</button>
-                                </form>
+                                <button class="btn" style="background:#818cf8;" @click="editarEvento(idx)">Editar</button>
+                                <button class="btn" style="background:#f87171;" @click="eliminarEvento(idx)">Eliminar</button>
                             </div>
                         </div>
-                        {% endif %}
+                        <div v-if="editIdx === idx" style="margin-top:12px;">
+                            <form @submit.prevent="guardarEdicion(idx)">
+                                <input type="text" v-model="evento.name" required>
+                                <input type="datetime-local" v-model="evento.date" required>
+                                <input type="text" v-model="evento.description">
+                                <input type="number" v-model="evento.price" step="0.01">
+                                <input type="number" v-model="evento.seats" required>
+                                <button type="submit" class="btn">Guardar</button>
+                            </form>
+                        </div>
                     </li>
-                {% empty %}
-                    <li>No hay eventos próximos.</li>
-                {% endfor %}
-            </ul>
+                    <li v-if="eventos.length === 0">No hay eventos próximos.</li>
+                </ul>
+            </div>
+            <script>
+            const { createApp } = Vue;
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            createApp({
+                data() {
+                    return {
+                        eventos: [],
+                        nuevoEvento: { name: '', date: '', description: '', price: '', seats: '' },
+                        editIdx: null,
+                        editEvento: {},
+                        loading: false
+                    }
+                },
+                mounted() {
+                    this.cargarEventos();
+                },
+                methods: {
+                    cargarEventos() {
+                        fetch('/artista/api/eventos/')
+                            .then(r => r.json())
+                            .then(data => {
+                                this.eventos = data.eventos;
+                            });
+                    },
+                    crearEvento() {
+                        if (!this.nuevoEvento.name || !this.nuevoEvento.date || !this.nuevoEvento.seats) return;
+                        this.loading = true;
+                        fetch('/artista/api/eventos/create/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            body: JSON.stringify(this.nuevoEvento)
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.success) this.cargarEventos();
+                            this.nuevoEvento = { name: '', date: '', description: '', price: '', seats: '' };
+                            this.loading = false;
+                        });
+                    },
+                    editarEvento(idx) {
+                        this.editIdx = idx;
+                        this.editEvento = { ...this.eventos[idx] };
+                    },
+                    guardarEdicion(idx) {
+                        const evento = this.eventos[idx];
+                        this.loading = true;
+                        fetch(`/artista/api/eventos/${evento.id}/edit/`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            body: JSON.stringify(this.editEvento)
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.success) this.cargarEventos();
+                            this.editIdx = null;
+                            this.loading = false;
+                        });
+                    },
+                    eliminarEvento(idx) {
+                        const evento = this.eventos[idx];
+                        this.loading = true;
+                        fetch(`/artista/api/eventos/${evento.id}/delete/`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': getCookie('csrftoken')
+                            }
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.success) this.cargarEventos();
+                            this.loading = false;
+                        });
+                    }
+                }
+            }).mount('#eventos-vue');
+            </script>
         </div>
-        <!-- Sección Balance -->
+
+        <!-- Sección Balance Vue -->
         <div class="section card">
             <div class="section-title">
                 <span class="icon"><svg width="28" height="28" fill="#fff" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 10h12v4H6z" fill="#6366f1"/></svg></span>
                 Ventas y Balance
             </div>
-            <p><strong>Total ventas:</strong> ${{ total_ventas }}</p>
-            <form method="post" style="margin-bottom:12px;">
-                {% csrf_token %}
-                <label for="concept">Nuevo gasto:</label>
-                <input type="text" name="concept" placeholder="Concepto">
-                <input type="number" name="amount" step="0.01" placeholder="Monto">
-                <button type="submit" name="add_expense" class="btn">Agregar gasto</button>
-            </form>
-            <h3 style="color:#a5b4fc;">Gastos</h3>
-            <ul>
-                {% for expense in expenses %}
-                    <li>{{ expense.concept }} - ${{ expense.amount }} - {{ expense.date }}</li>
-                {% empty %}
-                    <li>No hay gastos registrados.</li>
-                {% endfor %}
-            </ul>
-            <p><strong>Ganancia total:</strong> ${{ total_ganancia }}</p>
-            <h3 style="color:#a5b4fc;">Tickets vendidos</h3>
-            <ul>
-                {% for ticket in tickets %}
-                    <li>{{ ticket.buyer_name }} - {{ ticket.seats_reserved }} asiento(s) - ${{ ticket.amount_paid }} - {{ ticket.purchase_date }}</li>
-                {% empty %}
-                    <li>No hay tickets vendidos.</li>
-                {% endfor %}
-            </ul>
+            <div id="balance-vue">
+                <p><strong>Total ventas:</strong> ${{ totalVentas }}</p>
+                <form @submit.prevent="agregarGasto" style="margin-bottom:12px;">
+                    <label for="concept">Nuevo gasto:</label>
+                    <input type="text" v-model="nuevoGasto.concept" placeholder="Concepto">
+                    <input type="number" v-model="nuevoGasto.amount" step="0.01" placeholder="Monto">
+                    <button type="submit" class="btn">Agregar gasto</button>
+                </form>
+                <h3 style="color:#a5b4fc;">Gastos</h3>
+                <ul>
+                    <li v-for="(expense, idx) in expenses" :key="idx">{{ expense.concept }} - ${{ expense.amount }} - {{ expense.date }}</li>
+                    <li v-if="expenses.length === 0">No hay gastos registrados.</li>
+                </ul>
+                <p><strong>Ganancia total:</strong> ${{ totalGanancia }}</p>
+                <h3 style="color:#a5b4fc;">Tickets vendidos</h3>
+                <ul>
+                    <li v-for="(ticket, idx) in tickets" :key="idx">{{ ticket.buyer_name }} - {{ ticket.seats_reserved }} asiento(s) - ${{ ticket.amount_paid }} - {{ ticket.purchase_date }}</li>
+                    <li v-if="tickets.length === 0">No hay tickets vendidos.</li>
+                </ul>
+            </div>
+            <script>
+            createApp({
+                data() {
+                    return {
+                        totalVentas: 0,
+                        totalGanancia: 0,
+                        expenses: [],
+                        nuevoGasto: { concept: '', amount: '' },
+                        tickets: [
+                            {% for ticket in tickets %}
+                            { buyer_name: "{{ ticket.buyer_name }}", seats_reserved: {{ ticket.seats_reserved }}, amount_paid: {{ ticket.amount_paid }}, purchase_date: "{{ ticket.purchase_date }}" },
+                            {% endfor %}
+                        ]
+                    }
+                },
+                mounted() {
+                    this.cargarGastos();
+                },
+                methods: {
+                    cargarGastos() {
+                        fetch('/artista/api/gastos/')
+                            .then(r => r.json())
+                            .then(data => {
+                                this.expenses = data.expenses;
+                                this.calcularTotales();
+                            });
+                    },
+                    agregarGasto() {
+                        if (!this.nuevoGasto.concept || !this.nuevoGasto.amount) return;
+                        fetch('/artista/api/gastos/create/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken')
+                            },
+                            body: JSON.stringify(this.nuevoGasto)
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.success) this.cargarGastos();
+                            this.nuevoGasto = { concept: '', amount: '' };
+                        });
+                    },
+                    calcularTotales() {
+                        fetch('/artista/api/gastos/')
+                            .then(r => r.json())
+                            .then(data => {
+                                const gastos = data.expenses;
+                                this.totalVentas = this.tickets.reduce((acc, t) => acc + t.amount_paid, 0);
+                                const totalGastos = gastos.reduce((acc, e) => acc + e.amount, 0);
+                                this.totalGanancia = this.totalVentas - totalGastos;
+                            });
+                    }
+                }
+            }).mount('#balance-vue');
+            </script>
         </div>
         <!-- Sección Blog -->
         <div class="section card">

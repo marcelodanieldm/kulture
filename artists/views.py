@@ -1,3 +1,110 @@
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+import json
+
+# API: Listar eventos del artista
+@login_required
+def api_eventos_list(request):
+	artist_profile = ArtistProfile.objects.filter(user=request.user).first()
+	eventos = Event.objects.filter(artist=artist_profile)
+	data = [
+		{
+			'id': e.id,
+			'name': e.name,
+			'date': str(e.date),
+			'description': e.description,
+			'price': float(e.price),
+			'seats': e.total_seats
+		} for e in eventos
+	]
+	return JsonResponse({'eventos': data})
+
+# API: Crear evento
+@csrf_exempt
+@login_required
+def api_eventos_create(request):
+	if request.method == 'POST':
+		artist_profile = ArtistProfile.objects.filter(user=request.user).first()
+		data = json.loads(request.body)
+		name = data.get('name')
+		date = data.get('date')
+		description = data.get('description')
+		price = data.get('price', 0)
+		seats = data.get('seats')
+		if name and date and seats:
+			e = Event.objects.create(
+				name=name,
+				artist=artist_profile,
+				date=date,
+				description=description,
+				price=price or 0,
+				total_seats=seats,
+				available_seats=seats
+			)
+			return JsonResponse({'success': True, 'id': e.id})
+	return JsonResponse({'success': False})
+
+# API: Editar evento
+@csrf_exempt
+@login_required
+def api_eventos_edit(request, event_id):
+	if request.method == 'POST':
+		artist_profile = ArtistProfile.objects.filter(user=request.user).first()
+		event = Event.objects.filter(id=event_id, artist=artist_profile).first()
+		if event:
+			data = json.loads(request.body)
+			event.name = data.get('name', event.name)
+			event.date = data.get('date', event.date)
+			event.description = data.get('description', event.description)
+			event.price = data.get('price', event.price)
+			event.total_seats = data.get('seats', event.total_seats)
+			event.available_seats = data.get('seats', event.available_seats)
+			event.save()
+			return JsonResponse({'success': True})
+	return JsonResponse({'success': False})
+
+# API: Eliminar evento
+@csrf_exempt
+@login_required
+def api_eventos_delete(request, event_id):
+	if request.method == 'POST':
+		artist_profile = ArtistProfile.objects.filter(user=request.user).first()
+		Event.objects.filter(id=event_id, artist=artist_profile).delete()
+		return JsonResponse({'success': True})
+	return JsonResponse({'success': False})
+
+# API: Listar gastos
+@login_required
+def api_gastos_list(request):
+	artist_profile = ArtistProfile.objects.filter(user=request.user).first()
+	expenses = Expense.objects.filter(event__artist=artist_profile)
+	data = [
+		{
+			'id': e.id,
+			'concept': e.concept,
+			'amount': float(e.amount),
+			'date': str(e.date)
+		} for e in expenses
+	]
+	return JsonResponse({'expenses': data})
+
+# API: Crear gasto
+@csrf_exempt
+@login_required
+def api_gastos_create(request):
+	if request.method == 'POST':
+		artist_profile = ArtistProfile.objects.filter(user=request.user).first()
+		eventos = Event.objects.filter(artist=artist_profile)
+		event = eventos.first() if eventos.exists() else None
+		data = json.loads(request.body)
+		concept = data.get('concept')
+		amount = data.get('amount')
+		if concept and amount and event:
+			e = Expense.objects.create(event=event, concept=concept, amount=amount)
+			return JsonResponse({'success': True, 'id': e.id})
+	return JsonResponse({'success': False})
 from django.core.paginator import Paginator
 def artist_list(request):
 	artistas = ArtistProfile.objects.all()
