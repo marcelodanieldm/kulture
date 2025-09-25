@@ -42,7 +42,7 @@ class CustomUserTestCase(TestCase):
 	def test_login_colaborador_redirect(self):
 		response = self.client.post('/login/', {'username': 'colaborador', 'password': 'colaborador123'})
 		self.assertEqual(response.status_code, 302)
-		self.assertIn('/admin/', response.url)
+		self.assertIn('/blog/colaborador/', response.url)
 
 	def test_login_evento_redirect(self):
 		response = self.client.post('/login/', {'username': 'evento', 'password': 'evento123'})

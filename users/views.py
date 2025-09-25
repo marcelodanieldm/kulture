@@ -192,23 +192,28 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 
+
 @csrf_protect
 def login_view(request):
 	if request.method == 'POST':
+		# Permitir login por 'identifier' (email/username) o 'username' (tests)
 		identifier = request.POST.get('identifier')
+		if not identifier:
+			identifier = request.POST.get('username')
 		password = request.POST.get('password')
-		# Buscar usuario por email o username
 		from django.contrib.auth import get_user_model
 		UserModel = get_user_model()
 		user_obj = None
-		if '@' in identifier:
-			try:
-				user_obj = UserModel.objects.get(email=identifier)
-				username = user_obj.username
-			except UserModel.DoesNotExist:
-				username = None
-		else:
-			username = identifier
+		username = None
+		if identifier:
+			if '@' in identifier:
+				try:
+					user_obj = UserModel.objects.get(email=identifier)
+					username = user_obj.username
+				except UserModel.DoesNotExist:
+					username = None
+			else:
+				username = identifier
 		user = authenticate(request, username=username, password=password)
 		if user is not None:
 			login(request, user)
