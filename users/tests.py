@@ -9,6 +9,25 @@ from django.test import TestCase, Client
 from .models import CustomUser
 
 class CustomUserTestCase(TestCase):
+	def test_login_invalid_credentials(self):
+		response = self.client.post('/login/', {'username': 'artista', 'password': 'wrongpass'})
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, 'Credenciales inválidas')
+
+	def test_login_nonexistent_user(self):
+		response = self.client.post('/login/', {'username': 'noexiste', 'password': 'nopass'})
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, 'Credenciales inválidas')
+
+	def test_login_by_email(self):
+		response = self.client.post('/login/', {'identifier': 'artista@kulture.com', 'password': 'artista123'})
+		self.assertEqual(response.status_code, 302)
+		self.assertIn('/artista/', response.url)
+
+	def test_login_missing_password(self):
+		response = self.client.post('/login/', {'username': 'artista'})
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, 'Credenciales inválidas')
 	def setUp(self):
 		self.client = Client()
 		CustomUser.objects.create_user(username='evento', email='evento@kulture.com', password='evento123', user_type='super')
